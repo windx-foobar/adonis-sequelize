@@ -7,25 +7,25 @@
  * file that was distributed with this source code.
  */
 
-import { ApplicationContract } from '@ioc:Adonis/Core/Application'
+import { ApplicationContract } from '@ioc:Adonis/Core/Application';
 
 /**
  * Provider to register lucid sequelize
  */
 export default class LucidSoftDeletesProvider {
-  public static needsApplication = true
-  constructor (protected app: ApplicationContract) {}
+  public static needsApplication = true;
+  constructor(protected app: ApplicationContract) {}
 
-  public register (): void {
+  public register(): void {
     this.app.container.singleton('Adonis/Addons/LucidSoftDeletes', () => {
-      return require('../src/SoftDeletes')
-    })
+      return require('../src/SoftDeletes');
+    });
   }
 
-  public boot (): void {
+  public boot(): void {
     this.app.container.withBindings(['Adonis/Lucid/Database'], ({ ModelQueryBuilder }) => {
-      const { extendModelQueryBuilder } = require('../src/Bindings/ModelQueryBuilder')
-      extendModelQueryBuilder(ModelQueryBuilder)
-    })
+      const { extendModelQueryBuilder } = require('../src/Bindings/ModelQueryBuilder');
+      extendModelQueryBuilder(ModelQueryBuilder);
+    });
   }
 }

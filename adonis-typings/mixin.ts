@@ -8,11 +8,11 @@
  */
 
 declare module '@ioc:Adonis/Addons/LucidSoftDeletes' {
-  import { NormalizeConstructor } from '@ioc:Adonis/Core/Helpers'
-  import { LucidModel } from '@ioc:Adonis/Lucid/Orm'
-  import { DateTime } from 'luxon'
-  import { ModelQueryBuilderContract } from '@ioc:Adonis/Lucid/Orm'
-  import { QueryClientContract } from '@ioc:Adonis/Lucid/Database'
+  import { NormalizeConstructor } from '@ioc:Adonis/Core/Helpers';
+  import { LucidModel } from '@ioc:Adonis/Lucid/Orm';
+  import { DateTime } from 'luxon';
+  import { ModelQueryBuilderContract } from '@ioc:Adonis/Lucid/Orm';
+  import { QueryClientContract } from '@ioc:Adonis/Lucid/Database';
 
   export interface SoftDeletesMixin {
     <T extends NormalizeConstructor<LucidModel>>(superclass: T): T & {
@@ -71,6 +71,6 @@ declare module '@ioc:Adonis/Addons/LucidSoftDeletes' {
       }
     }
   }
-  export const SoftDeletes: SoftDeletesMixin
+  export const SoftDeletes: SoftDeletesMixin;
 }
 
