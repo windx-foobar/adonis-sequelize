@@ -7,5 +7,10 @@
  * file that was distributed with this source code.
  */
 
-/// <reference path="./sequelize.ts" />
-/// <reference path="./container.ts" />
+declare module '@ioc:Adonis/Core/Application' {
+  import { AdonisSequelizeContract } from '@ioc:Adonis/Sequelize';
+
+  export interface ContainerBindings {
+    'Adonis/Sequelize': AdonisSequelizeContract
+  }
+}
