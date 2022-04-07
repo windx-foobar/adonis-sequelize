@@ -1,0 +1,9 @@
+{
+  "extends": [
+    "plugin:adonis/typescriptPackage"
+  ],
+  "rules": {
+    "@typescript-eslint/semi": [2, "always"],
+    "@typescript-eslint/space-before-function-paren": [2, "never"]
+  }
+}
