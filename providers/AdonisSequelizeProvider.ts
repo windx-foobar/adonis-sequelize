@@ -12,20 +12,24 @@ import { ApplicationContract } from '@ioc:Adonis/Core/Application';
 /**
  * Provider to register lucid sequelize
  */
-export default class LucidSoftDeletesProvider {
+export default class AdonisSeqelizeProvider {
   public static needsApplication = true;
   constructor(protected app: ApplicationContract) {}
 
   public register(): void {
-    this.app.container.singleton('Adonis/Addons/LucidSoftDeletes', () => {
-      return require('../src/SoftDeletes');
-    });
   }
 
   public boot(): void {
-    this.app.container.withBindings(['Adonis/Lucid/Database'], ({ ModelQueryBuilder }) => {
-      const { extendModelQueryBuilder } = require('../src/Bindings/ModelQueryBuilder');
-      extendModelQueryBuilder(ModelQueryBuilder);
+    this.registerSequelize();
+  }
+
+  private registerSequelize() {
+    this.app.container.singleton('Adonis/Sequelize', () => {
+      const config = this.app.container.resolveBinding('Adonis/Core/Config').get('sequelize', {});
+      const logger = this.app.container.resolveBinding('Adonis/Core/Logger');
+
+      const { AdonisSequelize } = require('../src/AdonisSequelize');
+      return new AdonisSequelize(config, logger);
     });
   }
 }
