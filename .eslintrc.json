@@ -4,6 +4,7 @@
   ],
   "rules": {
     "@typescript-eslint/semi": [2, "always"],
-    "@typescript-eslint/space-before-function-paren": [2, "never"]
+    "@typescript-eslint/space-before-function-paren": [2, "never"],
+    "comma-dangle": [1, "never"]
   }
 }
