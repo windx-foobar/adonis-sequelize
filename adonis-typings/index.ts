@@ -9,3 +9,4 @@
 
 /// <reference path="./sequelize.ts" />
 /// <reference path="./container.ts" />
+/// <reference path="./orm.ts" />

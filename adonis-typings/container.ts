@@ -8,9 +8,13 @@
  */
 
 declare module '@ioc:Adonis/Core/Application' {
-  import { AdonisSequelizeContract } from '@ioc:Adonis/Sequelize';
+  import { AdonisSequelizeContract } from '@ioc:Adonis/Sequelize/Sequelize';
+  import * as Orm from '@ioc:Adonis/Sequelize/Orm';
 
   export interface ContainerBindings {
-    'Adonis/Sequelize': AdonisSequelizeContract
+    'Adonis/Sequelize/Sequelize': AdonisSequelizeContract;
+    'Adonis/Sequelize/Orm': {
+      BaseModel: typeof Orm.BaseModel
+    };
   }
 }

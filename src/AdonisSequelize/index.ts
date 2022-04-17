@@ -1,7 +1,15 @@
-import { AdonisSequelizeContract, SequelizeConfig } from '@ioc:Adonis/Sequelize';
+import { AdonisSequelizeContract, SequelizeConfig } from '@ioc:Adonis/Sequelize/Sequelize';
 import { LoggerContract } from '@ioc:Adonis/Core/Logger';
 import { Macroable } from 'macroable';
-import { Sequelize } from 'sequelize';
+import {
+  Sequelize,
+  Transaction,
+  TransactionOptions,
+  QueryTypes,
+  QueryOptions,
+  QueryOptionsWithType,
+  DataTypes
+} from 'sequelize';
 
 export class AdonisSequelize extends Macroable implements AdonisSequelizeContract {
   /**
@@ -12,12 +20,14 @@ export class AdonisSequelize extends Macroable implements AdonisSequelizeContrac
 
   public AdonisSequlize = AdonisSequelize;
   public sequelize: Sequelize;
+  public dataTypes: typeof DataTypes;
 
   constructor(
     private config: SequelizeConfig,
     private logger: LoggerContract
   ) {
     super();
+    this.dataTypes = DataTypes;
     this.connectSequelize().then(() => {});
   }
 
@@ -43,15 +53,35 @@ export class AdonisSequelize extends Macroable implements AdonisSequelizeContrac
       username,
       password,
       storage,
-      pool
+      pool,
+      logging: this.logger.debug
     });
+  }
 
-    try {
-      await this.sequelize.authenticate();
+  public getQueryInterface() {
+    return this.sequelize.getQueryInterface();
+  }
 
-      this.logger.debug('Соединение с БД прошло успешно');
-    } catch (error) {
-      throw error;
+  public transaction<T>(options: TransactionOptions, autoCallback: (t: Transaction) => PromiseLike<T>): Promise<T>;
+  public transaction<T>(autoCallback: (t: Transaction) => PromiseLike<T>): Promise<T>;
+  public transaction(options?: TransactionOptions): Promise<Transaction>
+  public transaction<T>(
+    options?: TransactionOptions | ((t: Transaction) => PromiseLike<T>),
+    autoCallback?: (t: Transaction) => PromiseLike<T>
+  ) {
+    if (typeof options === 'function') {
+      autoCallback = options;
+      return this.sequelize.transaction(autoCallback);
     }
+
+    if (typeof options === 'object' && typeof autoCallback === 'function') {
+      return this.sequelize.transaction<T>(options, autoCallback);
+    }
+
+    return this.sequelize.transaction(options);
+  }
+
+  public rawQuery<T extends QueryTypes>(sql: string, options?: QueryOptions | QueryOptionsWithType<T>) {
+    return this.sequelize.query(sql, options);
   }
 }

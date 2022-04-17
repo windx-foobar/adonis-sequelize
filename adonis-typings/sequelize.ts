@@ -9,10 +9,23 @@
 
 /// <reference types="sequelize" />
 
-declare module '@ioc:Adonis/Sequelize' {
-  import { Dialect as SequelizeDialect, PoolOptions, Sequelize } from 'sequelize';
+declare module '@ioc:Adonis/Sequelize/Sequelize' {
+  import {
+    Dialect as SequelizeDialect,
+    PoolOptions,
+    Sequelize,
+    QueryInterface,
+    TransactionOptions,
+    Transaction,
+    QueryOptionsWithType,
+    QueryOptions,
+    QueryTypes,
+    DataTypes
+  } from 'sequelize';
   import { LoggerContract } from '@ioc:Adonis/Core/Logger';
   import { MacroableConstructorContract } from 'macroable';
+
+  export { QueryInterface, Transaction } from 'sequelize';
 
   type AllowedDialects = 'mysql' | 'postgres' | 'sqlite' | 'mariadb';
   export type Dialect = Extract<SequelizeDialect, AllowedDialects>;
@@ -29,6 +42,7 @@ declare module '@ioc:Adonis/Sequelize' {
 
   export interface AdonisSequelizeContract {
     sequelize: Sequelize;
+    dataTypes: typeof DataTypes;
 
     AdonisSequlize: MacroableConstructorContract<AdonisSequelizeContract> & {
       new (
@@ -36,6 +50,18 @@ declare module '@ioc:Adonis/Sequelize' {
         logger: LoggerContract,
       ): AdonisSequelizeContract
     }
+
+    getQueryInterface(): QueryInterface;
+
+    rawQuery(sql: string, options?: QueryOptions): Promise<[unknown[], unknown]>;
+    rawQuery<T extends QueryTypes>(
+      sql: string,
+      options?: QueryOptionsWithType<T>
+    ): Promise<[unknown[], unknown]>;
+
+    transaction<T>(options: TransactionOptions, autoCallback: (t: Transaction) => PromiseLike<T>): Promise<T>;
+    transaction<T>(autoCallback: (t: Transaction) => PromiseLike<T>): Promise<T>;
+    transaction(options?: TransactionOptions): Promise<Transaction>;
   }
 
   const AdonisSequelize: AdonisSequelizeContract;
