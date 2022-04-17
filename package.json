@@ -19,7 +19,7 @@
     "copyfiles": "copyfiles \"templates/**/*.txt\" \"instructions.md\" build",
     "build": "npm run compile",
     "prepublishOnly": "npm run build",
-    "prepare": "npm run build && node ./bin/prepare"
+    "prepare": "npm run compile && node ./bin/prepare"
   },
   "types": "./build/adonis-typings/index.d.ts",
   "keywords": [
