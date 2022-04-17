@@ -30,7 +30,7 @@ export default async function instructions(
   const sequelizeConfig = new sink.files.MustacheFile(
     projectRoot,
     configPath,
-    getStub('database.txt')
+    getStub('sequelize.txt')
   );
   sequelizeConfig.commit();
   const configDir = app.directoriesMap.get('config') || 'config';
