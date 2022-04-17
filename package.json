@@ -73,8 +73,8 @@
     "test": "test"
   },
   "adonisjs": {
-    "instructions": "./build/instructions.js",
-    "instructionsMd": "./build/instructions.md",
+    "instructions": "./build/instruction.js",
+    "instructionsMd": "./build/instruction.md",
     "types": "adonis-sequelize",
     "providers": [
       "adonis-sequelize"
