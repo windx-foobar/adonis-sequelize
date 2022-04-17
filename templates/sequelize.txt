@@ -1,5 +1,5 @@
 import Env from '@ioc:Adonis/Core/Env';
-import { SequelizeConfig, Dialect } from '@ioc:Adonis/Sequelize';
+import { SequelizeConfig, Dialect } from '@ioc:Adonis/Sequelize/Sequelize';
 
 const sequelizeConfig: SequelizeConfig = {
   /*
