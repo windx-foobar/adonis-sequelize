@@ -18,7 +18,7 @@
     "compile": "npm run lint && npm run clean && tsc && npm run copyfiles",
     "copyfiles": "copyfiles \"templates/**/*.txt\" \"instructions.md\" build",
     "build": "npm run compile",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build && node ./bin/prepare.js"
   },
   "types": "./build/adonis-typings/index.d.ts",
   "keywords": [
